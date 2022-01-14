@@ -80,7 +80,8 @@ function App() {
 
     if (payout_ >= market.maxPayout) return message.error("Depository: max size exceeded")
 
-    market.capacity = market.capacity - market.capacityInQuote ? _amount : payout_
+    const capacitySub = market.capacityInQuote ? _amount : payout_
+    market.capacity = market.capacity - capacitySub
 
     const expiry_ = term.fixedTerm ? term.vesting + currentTime : term.vesting
 

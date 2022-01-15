@@ -352,7 +352,7 @@ function App() {
                     <div>depositInterval: <b>{metadatas[i].depositInterval}</b> </div>
                     <div>tuneInterval: <b>{metadatas[i].tuneInterval}</b> </div>
                     <div>quoteDecimals: <b>{formatNumber(metadatas[i].quoteDecimals)}</b> </div>
-                    <div>Market Price: <b>{formatNumber(prices[i])}</b></div>
+                    <div>marketPrice: <b>{formatNumber(prices[i])} (wait 1s)</b></div>
                   </>
                 }
 

@@ -229,10 +229,6 @@ function App() {
     return markets[_id].totalDebt * (10 ** metadatas[_id].quoteDecimals) / baseSupply;
   }
 
-  const currentDebt = (_id) => {
-
-  }
-
   const debtDecay = (_id) => {
     const meta = metadatas[_id];
 

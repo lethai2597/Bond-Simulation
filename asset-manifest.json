@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Bond-Simulation/static/css/main.1c74210b.css",
+    "main.js": "/Bond-Simulation/static/js/main.9448272a.js",
+    "static/js/787.c98af1a2.chunk.js": "/Bond-Simulation/static/js/787.c98af1a2.chunk.js",
+    "index.html": "/Bond-Simulation/index.html",
+    "main.1c74210b.css.map": "/Bond-Simulation/static/css/main.1c74210b.css.map",
+    "main.9448272a.js.map": "/Bond-Simulation/static/js/main.9448272a.js.map",
+    "787.c98af1a2.chunk.js.map": "/Bond-Simulation/static/js/787.c98af1a2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1c74210b.css",
+    "static/js/main.9448272a.js"
+  ]
+}

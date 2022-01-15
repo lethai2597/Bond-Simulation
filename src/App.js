@@ -306,7 +306,7 @@ function App() {
             <h1 className="text-xl font-medium mb-6">
               Bonds Market ({markets.length})
             </h1>
-            <Button type="primary" onClick={() => setIsAddingBond(true)}>
+            <Button style={{background: "#1890ff"}} type="primary" onClick={() => setIsAddingBond(true)}>
               Add Bond
             </Button>
           </div>
@@ -374,7 +374,7 @@ function App() {
                       </Col>
                       <Col span={4}>
                         <Form.Item label="_">
-                          <Button type="primary" htmlType="submit">
+                          <Button style={{background: "#1890ff"}} type="primary" htmlType="submit">
                             Deposit
                           </Button>
                         </Form.Item>
@@ -404,7 +404,7 @@ function App() {
                             {note.redeemed === 0
                               ? <>
                                 {
-                                  timestamp > note.matured ? <Button type="primary" onClick={() => redeem(note.id)}>Redeem</Button> : <Button type="primary" disabled>Redeem</Button>
+                                  timestamp > note.matured ? <Button style={{background: "#1890ff"}} type="primary" onClick={() => redeem(note.id)}>Redeem</Button> : <Button type="primary" disabled>Redeem</Button>
                                 }
                               </>
                               : <Button type="primary" disabled>Redeemed</Button>}

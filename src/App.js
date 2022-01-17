@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, Row, Col, Modal, InputNumber, message } from 'antd';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import 'antd/dist/antd.css';
 
 const initBondData = {
@@ -28,6 +29,8 @@ function App() {
   const [isAddingBond, setIsAddingBond] = useState(getTimestamp)
   const [timestamp, setTimestamp] = useState()
 
+  const [history, setHistory] = useState([])
+
   const [prices, setPrices] = useState([])
   const [baseSupply, setBaseSupply] = useState(1000000 * 1e9)
   const [markets, setMarkets] = useState([])
@@ -52,13 +55,14 @@ function App() {
   }
 
   // useEffect(() => {
-  // console.log("=============================")
-  // console.log("markets: ", markets)
-  // console.log("terms: ", terms)
-  // console.log("metadatas: ", metadatas)
-  // console.log("marketsForQuote: ", marketsForQuote)
-  // console.log("notes: ", notes)
-  // console.log("prices: ", prices)
+  //   console.log("=============================")
+  //   console.log("markets: ", markets)
+  //   console.log("terms: ", terms)
+  //   console.log("metadatas: ", metadatas)
+  //   console.log("marketsForQuote: ", marketsForQuote)
+  //   console.log("notes: ", notes)
+  //   console.log("prices: ", prices)
+  //   console.log("History: ", history)
   // })
 
   const deposit = (_id, _amount, _maxPrice, _user, _referral) => {
@@ -100,6 +104,19 @@ function App() {
     }
 
     setMarkets([...markets].map((item, index) => index === _id ? market : item))
+
+    setHistory([
+      ...history,
+      {
+        marketId: _id,
+        timestamp: timestamp,
+        price: _marketPrice(_id)/1e9,
+        capacity: market.capacity,
+        totalDebt: market.totalDebt/1e9,
+        maxPayout: market.maxPayout/1e9,
+        controlVariable: term.controlVariable/1e9
+      }
+    ])
 
   }
 
@@ -306,7 +323,7 @@ function App() {
             <h1 className="text-xl font-medium mb-6">
               Bonds Market ({markets.length})
             </h1>
-            <Button style={{background: "#1890ff"}} type="primary" onClick={() => setIsAddingBond(true)}>
+            <Button style={{ background: "#1890ff" }} type="primary" onClick={() => setIsAddingBond(true)}>
               Add Bond
             </Button>
           </div>
@@ -320,6 +337,95 @@ function App() {
               <div index={i} className="p-10 rounded-xl border grid grid-cols-4 gap-2 mb-6">
                 <div className="mb-6 col-span-4">
                   <span className="bg-gray-100 rounded-lg px-4 py-1 mr-2 inline-block">Next Turn: <b>{metadatas[i] ? metadatas[i].lastTune + metadatas[i].tuneInterval - timestamp : 0}s</b></span>
+                </div>
+                <div className="mb-6 col-span-4" style={{height: 200}}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      width={500}
+                      height={300}
+                      data={history}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="timestamp" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="price" stroke="#8884d8" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="mb-6 col-span-4" style={{height: 200}}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      width={500}
+                      height={300}
+                      data={history}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="timestamp" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="controlVariable" stroke="#8884d8" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="mb-6 col-span-4" style={{height: 200}}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      width={500}
+                      height={300}
+                      data={history}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="timestamp" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="maxPayout" stroke="#8884d8" />
+                      <Line type="monotone" dataKey="totalDebt" stroke="#82ca9d" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="mb-6 col-span-4" style={{height: 200}}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      width={500}
+                      height={300}
+                      data={history}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="timestamp" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="capacity" stroke="#8884d8" />
+                    </LineChart>
+                  </ResponsiveContainer>
                 </div>
                 <div className="col-span-4 font-bold"> quoteToken: <b>{markets[i].quoteToken}</b> </div>
                 <div>capacityInQuote: <b>{markets[i].capacityInQuote.toString()}</b> </div>
@@ -374,7 +480,7 @@ function App() {
                       </Col>
                       <Col span={4}>
                         <Form.Item label="_">
-                          <Button style={{background: "#1890ff"}} type="primary" htmlType="submit">
+                          <Button style={{ background: "#1890ff" }} type="primary" htmlType="submit">
                             Deposit
                           </Button>
                         </Form.Item>
@@ -404,7 +510,7 @@ function App() {
                             {note.redeemed === 0
                               ? <>
                                 {
-                                  timestamp > note.matured ? <Button style={{background: "#1890ff"}} type="primary" onClick={() => redeem(note.id)}>Redeem</Button> : <Button type="primary" disabled>Redeem</Button>
+                                  timestamp > note.matured ? <Button style={{ background: "#1890ff" }} type="primary" onClick={() => redeem(note.id)}>Redeem</Button> : <Button type="primary" disabled>Redeem</Button>
                                 }
                               </>
                               : <Button type="primary" disabled>Redeemed</Button>}
